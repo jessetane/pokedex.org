@@ -1,3 +1,4 @@
+var router = require('uri-router');
 var worker = require('./../shared/worker');
 var applyPatch = require('vdom-serialized-patch/patch');
 var indexOf = require('lodash/array/indexOf');
@@ -102,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
   detailViewContainer = $('#detail-view-container');
   detailViewContainer.addEventListener('click', e => {
     if (indexOf(e.target.classList, 'back-button') !== -1) {
-      orchestrator.animateOut(lastNationalId);
+      router.push('/');
     }
   });
   detailView.addEventListener('click', e => {
@@ -120,4 +121,15 @@ document.addEventListener('DOMContentLoaded', () => {
         e.target.parentElement.parentElement.parentElement);
     }
   })
+});
+
+router({
+  watch: 'pathname',
+  routes: [
+    ['/', (uri) => {
+      if (lastNationalId) {
+        orchestrator.animateOut(lastNationalId);
+      }
+    }]
+  ]
 });

@@ -1,3 +1,4 @@
+var router = require('uri-router');
 var pageSize = require('../../shared/util/constants').pageSize;
 var progress = require('./progress');
 var applyPatch = require('vdom-serialized-patch/patch');
@@ -124,8 +125,19 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       rippleEffect(e, e.target, e.offsetX, e.offsetY);
       var nationalId = getNationalIdFromElement(e.target);
-      showMonsterDetail(nationalId);
+      router.push('/' + nationalId);
     }
+  });
+  router({
+    watch: 'pathname',
+    routes: [
+      ['/.+', (uri) => {
+        var id = uri.pathname.slice(1);
+        var el = monstersList.querySelector(':nth-child(' + parseInt(id, 10) + ')');
+        window.scrollTo(0, el.offsetTop);
+        showMonsterDetail(id);
+      }]
+    ]
   });
   onViewportChange();
 }, false);

@@ -65,6 +65,7 @@
     "uglify-js": "^2.5.0",
     "uglify-stream": "^1.1.0",
     "uglifyify": "^3.0.1",
+    "uri-router": "^1.2.0",
     "vdom-as-json": "^1.0.7",
     "vdom-serialized-patch": "^1.0.2",
     "vdom-to-html": "^2.1.1",
