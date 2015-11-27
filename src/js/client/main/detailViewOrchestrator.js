@@ -38,6 +38,7 @@ function computeTransformsPartOne(nationalId) {
   console.time('computeTransformsPartOne()');
 
   var sourceSprite = monstersList.querySelector(`.sprite-${nationalId}`);
+  if (!sourceSprite) return null;
   var sourceTitleSpan = sourceSprite.parentElement.querySelector('span');
 
   var sourceSpriteRect = sourceSprite.getBoundingClientRect();
@@ -111,6 +112,7 @@ function doInAnimationPartOne(nationalId) {
   document.body.style.overflowY = 'hidden'; // disable scrolling
   detailViewContainer.classList.remove('hidden');
   var transforms = computeTransformsPartOne(nationalId, false);
+  if (!transforms) return null;
   var {bgTransform, spriteTransform, spriteTop, spriteLeft} = transforms;
   var targetBackground = detailView.querySelector('.detail-view-bg');
   var sourceSprite = monstersList.querySelector(`.sprite-${nationalId}`);
