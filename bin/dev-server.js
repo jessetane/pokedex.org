@@ -1,5 +1,6 @@
 var watch = require('node-watch');
-var hs = require('http-server');
+var http = require('http');
+var ecstatic = require('ecstatic');
 var childProcess = require('child_process');
 var bluebird = require('bluebird');
 var mkdirp = bluebird.promisify(require('mkdirp'));
@@ -60,7 +61,15 @@ async function doIt() {
 
   // start up dev server
   var serverPromise = new Promise(function (resolve, reject) {
-    hs.createServer({root: './www'}).listen(9000, function (err) {
+    var statics = ecstatic('./www', {
+      cache: process.env.TESTING ? 'no-cache' : 3600
+    });
+    http.createServer(function (req, res) {
+      if (/^\/[^\/.]+$/.test(req.url)) {
+        req.url = '/';
+      }
+      statics(req, res);
+    }).listen(9000, function (err) {
       if (err) {
         return reject(err);
       }
